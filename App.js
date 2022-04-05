@@ -35,6 +35,8 @@ const HelloWorldSceneAR = () => {
   );
 };
 
+
+
 export default () => {
   return (
     <ViroARSceneNavigator
