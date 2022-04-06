@@ -1,6 +1,17 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Modal,
+  SafeAreaView,
+  TextInput,
+  Button,
+} from 'react-native';
+
 import {
   ViroARScene,
   ViroBox,
@@ -11,8 +22,12 @@ import {
   ViroARImageMarker,
 } from '@viro-community/react-viro';
 
+
 const HelloWorldSceneAR = () => {
-  const [text, setText] = useState('Initializing AR...');
+  const [firstName, setFirstName] = useState('');
+  const [email, setEmail] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
 
   function onInitialized(state, reason) {
     console.log('guncelleme', state, reason);
@@ -26,8 +41,66 @@ const HelloWorldSceneAR = () => {
     },
   });
 
-  return (
+  const send = () => {
+    fetch('https://api.hsforms.com/submissions/v3/integration/submit/25738943/5ef0b30c-9961-4af8-8251-8f4f5833dc3', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify({
+        fields: [
+          {
+            firstname : firstName,
+            email: email,
+          },
+  ],
+  }),
+  }).then((response) => {
+      console.log(response);
+    }).catch(e => console.log(e.responseText));
+  };
+
+ return (
     <ViroARScene onTrackingUpdated={this.onInitialized}>
+
+        <Button
+            onPress={() =>  setModalVisible(true) }
+            title="Send"
+            color="#841584"
+        />
+
+      <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}
+      >
+        <View>
+          <SafeAreaView>
+            <TextInput
+                style={styles.input}
+                placeholder="First name"
+                onChangeText={setFirstName}
+                value={firstName}
+            />
+            <TextInput
+                value={email}
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={setEmail}
+            />
+            <Button
+                onPress={() =>  send() }
+                title="Send"
+                color="#841584"
+            />
+          </SafeAreaView>
+        </View>
+      </Modal>
+
+
       <ViroARImageMarker target={'targetOne'} onAnchorFound={()=> console.log('Trouvé !!')}>
       <ViroAmbientLight color="#FFFFFF" />
       <Viro3DObject
@@ -68,5 +141,11 @@ const HelloWorldSceneAR = () => {
         color: '#ffffff',
         textAlignVertical: 'center',
         textAlign: 'center',
+      },
+      input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
       },
     });
