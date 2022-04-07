@@ -21,7 +21,7 @@ import {
   ViroARImageMarker,
   ViroAnimations,
   ViroQuad,
-  ViroButton,
+  ViroARPlane,
 } from '@viro-community/react-viro';
 
 const HelloWorldSceneAR = () => {
@@ -55,24 +55,18 @@ const HelloWorldSceneAR = () => {
     <ViroARScene onTrackingUpdated={this.onInitialized}>
       <ViroARImageMarker target={'targetOne'} onAnchorFound={_onAnchorFound}>
         <ViroAmbientLight color="#FFFFFF" />
-        <Viro3DObject
-          source={require('./res/12140_Skull_v3_L2.obj')}
-          resources={[
-            require('./res/12140_Skull_v3_L2.mtl'),
-            require('./res/Skull.jpg'),
-          ]}
-          scale={[0, 0, 0]}
-          type="OBJ"
-          animation={{name: 'scaleSkull', run: animateSkull}}
-        />
-
-        <ViroQuad
-          rotation={[-90, 0, 0]}
-          position={[0, -0.001, 0]}
-          width={2.5}
-          height={2.5}
-          arShadowReceiver={true}
-        />
+        <ViroARPlane minHeight={0.1} minWidth={0.1} alignment={'Horizontal'}>
+          <Viro3DObject
+            source={require('./res/12140_Skull_v3_L2.obj')}
+            resources={[
+              require('./res/12140_Skull_v3_L2.mtl'),
+              require('./res/Skull.jpg'),
+            ]}
+            scale={[0, 0, 0]}
+            type="OBJ"
+            animation={{name: 'scaleSkull', run: animateSkull}}
+          />
+        </ViroARPlane>
       </ViroARImageMarker>
     </ViroARScene>
   );
@@ -113,13 +107,12 @@ export default () => {
   };
 
   return (
-    <View>
+    <View style={styles.f1}>
       <ViroARSceneNavigator
         autofocus={true}
         initialScene={{
           scene: HelloWorldSceneAR,
         }}
-        // style={styles.f1}
       />
       <View>
         <Button
