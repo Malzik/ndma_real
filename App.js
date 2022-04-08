@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TextInput,
   Button,
+  Image
 } from 'react-native';
 
 import {
@@ -115,11 +116,13 @@ export default () => {
         }}
       />
       <View>
-        <Button
-          onPress={() => setModalVisible(true)}
-          title="Send"
-          color="#841584"
-        />
+        <View style={styles.btn1}>
+          <Button
+              onPress={() => setModalVisible(true)}
+              title="Share"
+              color="#a4c0d6"
+          />
+        </View>
         <Modal
           animationType="fade"
           transparent={false}
@@ -127,21 +130,30 @@ export default () => {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
-          <View>
+          <View style={styles.div}>
             <SafeAreaView>
+              <Text style={styles.label}>
+                First Name :
+              </Text>
               <TextInput
                 style={styles.input}
-                placeholder="First name"
+                placeHolder="First namee"
+                label="First namee"
                 onChangeText={setFirstName}
                 value={firstName}
               />
+              <Text style={styles.label}>
+                Email :
+              </Text>
               <TextInput
                 value={email}
                 style={styles.input}
                 placeholder="Email"
                 onChangeText={setEmail}
               />
-              <Button onPress={() => send()} title="Send" color="#841584" />
+              <View style={styles.btn}>
+                <Button onPress={() => send()} title="Send" style={styles.btn} color="#a4c0d6" />
+              </View>
             </SafeAreaView>
           </View>
         </Modal>
@@ -160,9 +172,25 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    height: 40,
-    margin: 12,
+    borderColor: "gray",
+    width: "100%",
     borderWidth: 1,
+    borderRadius: 10,
     padding: 10,
+    marginTop : 10,
   },
+  btn: {
+    marginTop : 20,
+    borderRadius: 10,
+  },
+  div: {
+    padding: 20
+  },
+  label: {
+    marginTop : 15,
+  },
+  btn1: {
+    padding: 10,
+    backgroundColor : "#5d87a8"
+  }
 });
