@@ -1,4 +1,4 @@
-# Viro Starter Kit
+# Advanced reality school project
 
 This is a blank React Native project setup with Viro.
 
